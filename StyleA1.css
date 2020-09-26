@@ -123,13 +123,32 @@ h3{
 	text-align: center;
 }
 
-.imageclass{
+.imageclassfkol{
 	display: block;
 	margin: 0 40px 0 0;
 	background-color: grey;
 	border-style: double;
 	border-width: 10px;
 	border-color: #00D1C1
+}
+
+.imageclasssov{
+	display: block;
+	margin: 0 40px 0 0;
+	background-color: grey;
+	border-style: double;
+	border-width: 10px;
+	border-color: #000000;
+	
+}
+
+.imageclasscarc{
+	display: block;
+	margin: 0 40px 0 0;
+	background-color: grey;
+	border-style: double;
+	border-width: 10px;
+	border-color: #C7B900;
 	
 }
 
@@ -157,5 +176,4 @@ th{
 .flex-main{
 	align-items: center;
 	text-align: center;
-}.imageclass {
 }
