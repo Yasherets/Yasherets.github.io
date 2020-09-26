@@ -125,12 +125,33 @@ h3{
 
 .imageclass{
 	display: block;
-	margin: 5px;
+	margin: 0 40px 0 0;
 	background-color: grey;
 	border-style: double;
 	border-width: 10px;
 	border-color: #00D1C1
 	
+}
+
+.containerstats{
+	width: 1000px;
+	margin: 0 auto;
+	align-items: left;
+}
+
+table, th, td{
+	border: 1px solid white;
+	border-collapse: collapse;
+	font-family: Constantia;
+	color: #c5c5c5;
+}
+
+td{
+	min-width: 300px;
+}
+
+th{
+	min-width: 112px;
 }
 
 .flex-main{
