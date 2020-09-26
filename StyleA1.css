@@ -98,22 +98,19 @@ h3{
 .fkolbutton a:hover{
 	background-image: url("fkolbg.png");
 	background-color: #C9C9C9;
-	color: #00FFE3;
-	color: black;
+	color: #00fab7;
 }
 
 .sovbutton a:hover{
-	background-image: url("fkolbg.png");
+	background-image: url("sovbg.png");
 	background-color: #C9C9C9;
-	color: #00FFE3;
-	color: black;
+	color: greenyellow;
 }
 
 .carcbutton a:hover{
-	background-image: url("fkolbg.png");
+	background-image: url("carcbg.png");
 	background-color: #C9C9C9;
-	color: #00FFE3;
-	color: black;
+	color: yellow;
 }
 
 #page_content{
