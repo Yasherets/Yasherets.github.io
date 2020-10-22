@@ -1,5 +1,3 @@
-"use strict";
-
 let MSGame = (function(){
 
   // private constants
@@ -183,6 +181,9 @@ let game = new MSGame();
 function easy() {
 	
 	game.init(8, 10, 10);
+  t = 0;
+  if(timer) window.clearInterval(timer);
+  document.getElementById("timeElapsed").innerHTML = '000';
   document.getElementById('statusGame').innerHTML = "";
 	console.log(game.getRendering().join("\n"));
 	console.log(game.getStatus());
@@ -192,11 +193,17 @@ function easy() {
 function hard() {
 	
 	game.init(10, 10, 20);
+  t = 0;
+  if(timer) window.clearInterval(timer);
+  document.getElementById("timeElapsed").innerHTML = '000';
   document.getElementById('statusGame').innerHTML = "";
 	console.log(game.getRendering().join("\n"));
 	console.log(game.getStatus());
   generateGrid();
 }
+
+let t = 0;
+let timer = null;
 
 function generateGrid() {
 	let nbuttons = 100;
@@ -293,6 +300,7 @@ function leftClick(event) {
           console.log(event.target.dataset.row);
           game.uncover(event.target.dataset.row, event.target.dataset.col);
           generateGrid();
+          timerStart();
      }
  }
  
@@ -310,22 +318,19 @@ function rightClick(event) {
           	//e.target.dataset.marked = true;
           //}
           generateGrid();
+          timerStart();
      }
  }
  
-//game.uncover(2,5);
-//console.log(game.getRendering().join("\n"));
-//console.log(game.getStatus());
-//generateGrid();
+function timerStart() {
+	if (!timer) {
+  	timer = setInterval(function(){
+   	t++;
+    document.getElementById("timeElapsed").innerHTML = ('000' + t).substr(-3);
+  }, 1000); 
+  }
+   
+}
 
-//game.uncover(5,5);
-//console.log(game.getRendering().join("\n"));
-//console.log(game.getStatus());
-
-//game.mark(4,5);
-//console.log(game.getRendering().join("\n"));
-//console.log(game.getStatus());
-
-
-console.log("end");
+easy();
 

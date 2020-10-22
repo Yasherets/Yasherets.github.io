@@ -39,3 +39,6 @@ body {
   text-align: center;
   font-size: 200%;
 }
+#timeElapsed {
+  display: inline;
+}
