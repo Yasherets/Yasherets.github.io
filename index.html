@@ -1,37 +1,106 @@
 ﻿<!DOCTYPE html>
+
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Minesweeper</title>
-    <meta name="viewport" content="width=device-width, initial-scale=.8">
-    <link href="style.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    <div id="statusGame">
-      </div>
-  
-  <button type="button" onclick="easy()">Easy</button>
-  <button type="button" onclick="hard()">Hard</button>
-  
-    <div>
-      Mines: 
-      <div id="statusMines">
-      </div>
-    </div>
-    
-    <div>
-      Flags set: 
-      <div id="statusFlags">
-      </div>
-    </div>
-    
-    <div>
-      Time elapsed: 
-      <div id="timeElapsed">
-      </div>
-    </div>
-    
-    <div id="btnContainer"></div>
-    <script src="msgame.js"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Socket.IO chat</title>
+        <style>
+             * { margin: 0; padding: 0; box-sizing: border-box; }
+             body { font: 13px Helvetica, Arial; }
+             form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 960px}
+             form name { width: 100px; background: white; border: none; padding: 10px; }
+             form input { border: 0; padding: 10px; width: 780px;}
+             form button { width: 100px; background: rgb(130, 224, 255); border: none; padding: 10px; }
+             .container{ width: 960px; margin: 0 auto; display: table; clear: both}
+             .chatwindow { float: left; width: 800px; }
+             .userlist {float: right; width: 150px; align-items: right; display: block; border: 1px; border-style: solid;}
+             #messages { list-style-type: none; margin: 0; padding: 0; overflow: auto; position: absolute; bottom: 40px; max-height: 95vh; width: 800px}
+             #messages li { padding: 5px 10px; }
+             #messages li:nth-child(odd) { background: #eee; }
+             #users { list-style-type: none; margin: 0; padding: 0; overflow: auto; max-height: 95vh; width: 250px; }
+        </style>
+    </head>
+    <body>
+    <div class="container">
+        <div class="chatwindow">
+            <ul id="messages">
+            </ul>
+            <form action="">
+                <name id="username"></name><input id="m" autocomplete="off" /><button>Send</button>
+            </form>
+        </div class="chatwindow">
+        <div class="userlist">
+            <ul id="users">
+                
+            </ul>
+        </div class="userlist">
+    </div class="container">
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script>
+            $(function () {
+                var socket = io();
+                var n = 0;
+                var named = false;
+                var name;
+
+                socket.on('new user', function(num, messages) {
+                    if (named == false) {
+                        n = num;
+                        name = "User" + n;
+                        $("name").append(name + ": ");
+                        named = true;
+                        socket.emit('username', name);
+                        messages.forEach(message => $('#messages').append($('<li>').text(emojis(message))));
+                        //for (i = 0; i < messages.length, i++) {
+                            //messages[i]
+                        //}
+
+                        //emojis(messages);
+                    }
+                });
+                
+                function emojis(messages) {
+                    var str = messages;
+                    str = str.replace(":D", "😁");
+                    str = str.replace(":)", "😀");
+                    str = str.replace(":(", "🙁");
+                    str = str.replace(":o", "😲");
+                    str = str.replace("XD", "😆");
+                    str = str.replace("D:", "😦");
+
+                    return str;
+                }
+
+                socket.on('resetusers', function() {
+                    //$('#users').html('');
+                    socket.emit('username', name);
+                });
+
+                socket.on('userlist', function(userlist) {
+                    $('#users').html('');
+                    userlist.forEach(user => $('#users').append($('<li>').text(user)));
+                });
+
+                socket.on('namechangesuccess', function(newname) {
+                    name = newname;
+                });
+
+                $('form').submit(function(e){
+                     e.preventDefault(); // prevents page reloading
+                     if ($('#m').val().substring(0, 6) == "/name ") {
+                          socket.emit('namechange', $('#m').val().substring(6));
+                     }
+                     socket.emit('chat message', "User" + n + ": " + $('#m').val());
+                     $('#m').val('');
+                     return false;
+                });
+                socket.on('chat message', function(msg){
+                    
+                    $('#messages').append($('<li>').text(emojis(msg)));
+                    $('#messages').scrollTop($('#messages')[0].scrollHeight);
+                });
+            });
+        </script>
+    </body>
 </html>

@@ -289,6 +289,7 @@ function generateGrid() {
   
   container.addEventListener('click',leftClick);
  	container.addEventListener("contextmenu", rightClick);
+  //container.addEventListener('click', press);
 }
 
 generateGrid();
@@ -322,6 +323,21 @@ function rightClick(event) {
      }
  }
  
+var pressTimer;
+
+function press(event){
+  event.target.mouseup(function(){
+    clearTimeout(pressTimer);
+    // Clear timeout
+    return false;
+  }).mousedown(function(){
+    // Set timeout
+    rightClick();
+    pressTimer = 0;
+    return false; 
+  });
+}
+ 
 function timerStart() {
 	if (!timer) {
   	timer = setInterval(function(){
@@ -333,4 +349,3 @@ function timerStart() {
 }
 
 easy();
-
